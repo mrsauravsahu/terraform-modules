@@ -1,13 +1,13 @@
 resource "aws_instance" "main" {
-  subnet_id = aws_subnet.dev.id
-  associate_public_ip_address = var.instance.is_public
+  # subnet_id = aws_subnet.dev.id
   ami           = var.ami_id
-  instance_type = "t3.micro"
+  instance_type = "t2.micro"
   key_name = aws_key_pair.main.key_name
 
-  security_groups = [
-    aws_security_group.allow_ssh.id
-  ]
+  network_interface {
+    network_interface_id = aws_network_interface.main.id
+    device_index         = 0
+  }
 
   tags = {
     App = var.app.name

@@ -19,9 +19,44 @@ resource "aws_subnet" "dev" {
   }
 }
 
+resource "aws_route_table" "example" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    App = var.app.name
+  }
+}
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    App = var.app.name
+  }
+}
+
+resource "aws_eip" "one" {
+  vpc                       = true
+  network_interface         = aws_network_interface.main.id
+  associate_with_private_ip = "10.0.0.4"
+
+  tags = {
+    App = var.app.name
+  }
+}
+
 resource "aws_network_interface" "main" {
   subnet_id   = aws_subnet.dev.id
   private_ips = ["10.0.0.4"]
+
+  security_groups = [
+    aws_security_group.allow_ssh.id
+  ]
 
   tags = {
     App = var.app.name
@@ -34,11 +69,11 @@ resource "aws_security_group" "allow_ssh" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description      = "SSH from VPC"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   egress {
