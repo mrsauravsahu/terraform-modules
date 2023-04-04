@@ -5,6 +5,10 @@ resource "aws_instance" "main" {
   instance_type = "t3.micro"
   key_name = aws_key_pair.main.key_name
 
+  security_groups = [
+    aws_security_group.allow_ssh.id
+  ]
+
   tags = {
     App = var.app.name
   }
