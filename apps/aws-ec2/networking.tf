@@ -4,6 +4,7 @@ provider "aws" {
 
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
+
   tags = {
     App = var.app.name
   }
@@ -40,7 +41,7 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
-resource "aws_eip" "one" {
+resource "aws_eip" "instance_ip" {
   vpc                       = true
   network_interface         = aws_network_interface.main.id
   associate_with_private_ip = "10.0.0.4"
@@ -87,4 +88,9 @@ resource "aws_security_group" "allow_ssh" {
   tags = {
     App = var.app.name
   }
+}
+
+resource "aws_main_route_table_association" "a" {
+  vpc_id         = aws_vpc.main.id
+  route_table_id = aws_route_table.example.id
 }
