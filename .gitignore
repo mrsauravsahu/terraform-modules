@@ -1,0 +1,11 @@
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+
+.envrc
+
+# Entries below this point are managed by Please (DO NOT EDIT)
+plz-out
+.plzconfig.local
+
+*.pem
