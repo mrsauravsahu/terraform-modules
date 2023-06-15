@@ -16,6 +16,6 @@ resource "aws_instance" "main" {
 
 resource "aws_key_pair" "main" {
   # TODO: add a hash at the end
-  key_name   = "instance-key-pair"
+  key_name   = "instance-key-pair-${var.app.name}"
   public_key = tls_private_key.main.public_key_openssh
 }

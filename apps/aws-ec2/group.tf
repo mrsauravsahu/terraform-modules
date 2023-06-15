@@ -1,5 +1,5 @@
 resource "aws_resourcegroups_group" "test" {
-    name = "test-group"
+    name = "test-group-${var.app.name}"
     resource_query {
       query = <<JSON
       {
