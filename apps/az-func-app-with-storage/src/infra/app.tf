@@ -22,7 +22,6 @@ resource "azurerm_linux_function_app" "main" {
       node_version = 18
     }
   }
-
 }
 
 resource "azurerm_storage_account" "main" {
