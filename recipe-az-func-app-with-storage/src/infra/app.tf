@@ -5,7 +5,7 @@ resource "random_string" "func_name" {
 }
 
 resource "azurerm_linux_function_app" "main" {
-  name                      = "${var.app.name}-func-app-${random_string.func_name.result}"
+  name                      = "${var.app.prefix}-${var.app.name}-func-app-${random_string.func_name.result}-${var.app.env}"
   location                  = azurerm_resource_group.main.location
   resource_group_name       = azurerm_resource_group.main.name
   service_plan_id       = azurerm_service_plan.main.id
@@ -25,7 +25,7 @@ resource "azurerm_linux_function_app" "main" {
 }
 
 resource "azurerm_storage_account" "main" {
-  name                     = "${var.app.name}funcstorage"
+  name                     = "${var.app.prefix}${var.app.name}funcstorage${var.app.env}"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
@@ -33,7 +33,7 @@ resource "azurerm_storage_account" "main" {
 }
 
 resource "azurerm_service_plan" "main" {
-  name                = "${var.app.name}-func-app-plan"
+  name                = "${var.app.prefix}-${var.app.name}-func-app-plan-${var.app.env}"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   # kind                = "FunctionApp"
