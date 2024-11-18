@@ -2,6 +2,8 @@
 
 Recipe to create an Azure OpenAI service within a resource group on Azure.
 
+> Note: The OpenAI service has public access so it is not recommended for production environments.
+
 # env vars
 
 Environment variables used to configure the recipe.
